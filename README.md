@@ -1,6 +1,6 @@
 # Setup
 sudo apt-get update && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
-sudo apt-get install zip unzip wget curl git stow zsh ripgrep gdu fontconfig neofetch -y
+sudo apt-get install zip unzip wget curl git stow zsh ripgrep gdu fontconfig neofetch clang-11 cargo python3-venv -y
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 source ~/.zshrc
