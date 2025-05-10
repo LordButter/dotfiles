@@ -1,3 +1,7 @@
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -143,7 +147,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+	-- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
 	-- NOTE: Plugins can also be added by using a table,
 	-- with the first argument being the link and the following
@@ -234,7 +238,8 @@ require("lazy").setup({
 				{ "<leader>s", group = "[S]earch" },
 				{ "<leader>w", group = "[W]orkspace" },
 				{ "<leader>t", group = "[T]oggle" },
-				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+				{ "<leader>g", group = "[G]it", mode = { "n", "v" } },
+				{ "<leader>h", group = "[H]arpoon", mode = { "n" } },
 			},
 		},
 	},
@@ -269,6 +274,16 @@ require("lazy").setup({
 
 			-- Useful for getting pretty icons, but requires a Nerd Font.
 			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+            {
+                "ThePrimeagen/harpoon",
+                config = function()
+                    vim.keymap.set("n", "<leader>hm", require("harpoon.mark").add_file, { desc = "[H]arpoon [M]ark" })
+                    vim.keymap.set("n", "<leader><leader>", require("harpoon.ui").toggle_quick_menu, { desc = "Harpoon Menu" })
+                    vim.keymap.set("n", "<leader>hn", require("harpoon.ui").nav_next, { desc = "[H]arpoon [N]ext" })
+                    vim.keymap.set("n", "<leader>hp", require("harpoon.ui").nav_prev, { desc = "[H]arpoon [P]rev" })
+                    vim.keymap.set("n", "<leader>ht", function() require("harpoon.term").gotoTerminal(1) end, { desc = "[H]arpoon [T]erminal"})
+                end
+            },
 		},
 		config = function()
 			-- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -302,6 +317,9 @@ require("lazy").setup({
 				--   },
 				-- },
 				-- pickers = {}
+				defaults = {
+					path_display = { "smart" },
+				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown(),
@@ -312,6 +330,7 @@ require("lazy").setup({
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "ui-select")
+			pcall(require("telescope").load_extension, "harpoon")
 
 			-- See `:help telescope.builtin`
 			local builtin = require("telescope.builtin")
@@ -321,7 +340,8 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch existing [B]uffers" })
+			vim.keymap.set("n", "<leader>sm", "<cmd>Telescope harpoon marks<CR>", { desc = "[S]earch Harpon [M]arks" })
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>/", function()
@@ -457,6 +477,8 @@ require("lazy").setup({
 					--  For example, in C this would take you to the header.
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
+                    map("<leader>k", vim.lsp.buf.hover, "test")
+
 					-- The following two autocommands are used to highlight references of the
 					-- word under your cursor when your cursor rests there for a little while.
 					--    See `:help CursorHold` for information about when this is executed
@@ -576,50 +598,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
-	{ -- Autoformat
-		"stevearc/conform.nvim",
-		event = { "BufWritePre" },
-		cmd = { "ConformInfo" },
-		keys = {
-			{
-				"<leader>f",
-				function()
-					require("conform").format({ async = true, lsp_format = "fallback" })
-				end,
-				mode = "",
-				desc = "[F]ormat buffer",
-			},
-		},
-		opts = {
-			notify_on_error = false,
-			format_on_save = function(bufnr)
-				-- Disable "format_on_save lsp_fallback" for languages that don't
-				-- have a well standardized coding style. You can add additional
-				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = { c = true, cpp = true }
-				local lsp_format_opt
-				if disable_filetypes[vim.bo[bufnr].filetype] then
-					lsp_format_opt = "never"
-				else
-					lsp_format_opt = "fallback"
-				end
-				return {
-					timeout_ms = 500,
-					lsp_format = lsp_format_opt,
-				}
-			end,
-			formatters_by_ft = {
-				lua = { "stylua" },
-				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
-				--
-				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
-			},
-		},
-	},
-
 	{ -- Autocompletion
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -675,11 +653,6 @@ require("lazy").setup({
 				--
 				-- No, but seriously. Please read `:help ins-completion`, it is really good!
 				mapping = cmp.mapping.preset.insert({
-					-- Select the [n]ext item
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					-- Select the [p]revious item
-					["<C-p>"] = cmp.mapping.select_prev_item(),
-
 					-- Scroll the documentation window [b]ack / [f]orward
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -687,13 +660,17 @@ require("lazy").setup({
 					-- Accept ([y]es) the completion.
 					--  This will auto-import if your LSP supports it.
 					--  This will expand snippets if the LSP sent a snippet.
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					--["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					-- Select the [n]ext item
+					--["<C-n>"] = cmp.mapping.select_next_item(),
+					-- Select the [p]revious item
+					--["<C-p>"] = cmp.mapping.select_prev_item(),
 
 					-- If you prefer more traditional completion keymaps,
 					-- you can uncomment the following lines
-					--['<CR>'] = cmp.mapping.confirm { select = true },
-					--['<Tab>'] = cmp.mapping.select_next_item(),
-					--['<S-Tab>'] = cmp.mapping.select_prev_item(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping.select_next_item(),
+					["<S-Tab>"] = cmp.mapping.select_prev_item(),
 
 					-- Manually trigger a completion from nvim-cmp.
 					--  Generally you don't need this, because nvim-cmp will display
@@ -741,16 +718,13 @@ require("lazy").setup({
 		-- change the command in the config to whatever the name of that colorscheme is.
 		--
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		"tanvirtin/monokai.nvim",
+		"loctvl842/monokai-pro.nvim",
 		priority = 1000, -- Make sure to load this before all the other start plugins.
 		init = function()
 			-- Load the colorscheme here.
 			-- Like many other themes, this one has different styles, and you could load
 			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("monokai")
-
-			-- You can configure highlights by doing something like:
-			vim.cmd.hi("Comment gui=none")
+			vim.cmd.colorscheme("monokai-pro-classic")
 		end,
 	},
 
@@ -922,7 +896,6 @@ require("lazy").setup({
 				-- online, please don't ask me how to install them :)
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
-					"delve",
 				},
 			})
 
@@ -946,6 +919,40 @@ require("lazy").setup({
 						disconnect = "⏏",
 					},
 				},
+                layouts = {
+                    {
+                        elements = {
+                            {
+                                id = "scopes",
+                                size = 0.6
+                            },
+                            {
+                                id = "stacks",
+                                size = 0.25
+                            },
+                            {
+                                id = "breakpoints",
+                                size = 0.15
+                            },
+                        },
+                        position = "left",
+                        size = 120
+                    },
+                    {
+                        elements = {
+                            {
+                                id = "repl",
+                                size = 0.5
+                            },
+                            {
+                                id = "console",
+                                size = 0.5
+                            }
+                        },
+                        position = "bottom",
+                        size = 20
+                    }
+                },
 			})
 
 			dap.listeners.after.event_initialized["dapui_config"] = dapui.open
@@ -997,8 +1004,11 @@ require("lazy").setup({
 		},
 		opts = {
 			filesystem = {
+                filtered_items = {
+                    visible = true,
+                },
 				window = {
-					position = "top",
+					position = "float",
 					mappings = {
 						["\\"] = "close_window",
 					},
@@ -1050,17 +1060,17 @@ require("lazy").setup({
 						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 					end, { desc = "reset git hunk" })
 					-- normal mode
-					map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "git [s]tage hunk" })
-					map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "git [r]eset hunk" })
-					map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "git [S]tage buffer" })
-					map("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "git [u]ndo stage hunk" })
-					map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "git [R]eset buffer" })
-					map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "git [p]review hunk" })
-					map("n", "<leader>hb", gitsigns.blame_line, { desc = "git [b]lame line" })
-					map("n", "<leader>hd", gitsigns.diffthis, { desc = "git [d]iff against index" })
-					map("n", "<leader>hD", function()
+					map("n", "<leader>gs", gitsigns.stage_hunk, { desc = "[G]it [s]tage hunk" })
+					map("n", "<leader>gr", gitsigns.reset_hunk, { desc = "[G]it [r]eset hunk" })
+					map("n", "<leader>gS", gitsigns.stage_buffer, { desc = "[G]it [S]tage buffer" })
+					map("n", "<leader>gu", gitsigns.undo_stage_hunk, { desc = "[G]it [u]ndo stage hunk" })
+					map("n", "<leader>gR", gitsigns.reset_buffer, { desc = "[G]it [R]eset buffer" })
+					map("n", "<leader>gp", gitsigns.preview_hunk, { desc = "[G]it [p]review hunk" })
+					map("n", "<leader>gb", gitsigns.blame_line, { desc = "[G]it [b]lame line" })
+					map("n", "<leader>gd", gitsigns.diffthis, { desc = "[G]it [d]iff against index" })
+					map("n", "<leader>gD", function()
 						gitsigns.diffthis("@")
-					end, { desc = "git [D]iff against last commit" })
+					end, { desc = "[G]it [D]iff against last commit" })
 					-- Toggles
 					map(
 						"n",
@@ -1073,7 +1083,6 @@ require("lazy").setup({
 			},
 		},
 	},
-
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
 	--

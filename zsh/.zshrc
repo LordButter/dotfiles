@@ -1,0 +1,175 @@
+#!/bin/bash
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="agnoster"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git history zsh-autosuggestions dotenv python tmux)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export GOPATH=/home/bastian/go
+
+export SHELL_VERBOSITY=1
+export XDEBUG_SESSION=1
+
+export PATH="$HOME/neovim/bin:$PATH"
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
+export PATH=$HOME/.dotnet:$PATH
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+alias ssh-ws='sshpass -p "$(pass show ssh/wit/stage)" ssh witfujdd@wit-demo.com.cloud6-vm231.de-nserver.de'
+alias ssh-wd='sshpass -p "$(pass show ssh/wit/demo)" ssh witfxsrw@wit-demo-dev.com.cloud3-vm648.de-nserver.de'
+alias ssh-wr='sshpass -p "$(pass show ssh/wit/release)" ssh witsxtmf@wit-release.com.cloud3-vm648.de-nserver.de'
+alias ssh-wdp='sshpass -p "$(pass show ssh/wit/deployment)" ssh witxbhku@wit-deployment.com.cloud3-vm648.de-nserver.de'
+
+alias ssh-vs='sshpass -p "$(pass show ssh/vollmer/stage)" ssh volmpxkk@vollmer-stage.com.cloud6-vm231.de-nserver.de'
+alias ssh-vl='sshpass -p "$(pas show ssh/vollmer/live)" ssh volskjjr@vollmer.com.cloud6-vm231.de-nserver.de'
+alias ssh-fs='sshpass -p "$(pass show ssh/fulminant/stage)" ssh fulfxbwp@fulminant.com.cloud3-vm648.de-nserver.de'
+alias ssh-fl='sshpass -p "$(pass show ssh/fulminant/live)" ssh fulkwheb@fulminant.com.cloud6-vm231.de-nserver.de'
+alias ssh-kl='sshpass -p "$(pass show ssh/kuhnert/live)" ssh kuhwtptx@cloud5-vm540.de-nserver.de'
+alias ssh-bs='sshpass -p "$(pass show ssh/bekuplast/stage)" ssh bekdmcyb@bekuplast-stage.com.cloud6-vm231.de-nserver.de'
+alias ssh-bl='sshpass -p "$(pass show ssh/bekuplast/live)" ssh ssh-fnla6t@a-x8s0vh@ssh.fiestel.project.host'
+alias ssh-js='sshpass -p "$(pass show ssh/juliwa-hesa/stage)" ssh juloeomo@juliwa-hesa-stage.com.cloud6-vm231.de-nserver.de'
+alias ssh-jl='sshpass -p "$(pass show ssh/juliwa-hesa/live)" ssh juluwrod@juliwa-hesa.com.cloud6-vm231.de-nserver.de'
+alias ssh-as='sshpass -p "$(pass show ssh/allgaier/stage)" ssh allqenvq@allgaier-stage.com.cloud6-vm231.de-nserver.de'
+alias ssh-3gs='sshpass -p "$(pass show ssh/3g/stage)" ssh php-schmiede-dev.com_1ysi5fez2ij@213.202.244.164'
+alias ssh-frs='sshpass -p "$(pass show ssh/frega/stage)" ssh freuufea@frega-stage.com.cloud6-vm231.de-nserver.de'
+
+alias scp-ws='function scp_alias(){ sshpass -p "$(pass show ssh/wit/stage)" scp -r witfujdd@wit-demo.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-wd='function scp_alias(){ sshpass -p "$(pass show ssh/wit/demo)" scp -r witfxsrw@wit-demo-dev.com.cloud3-vm648.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-wr='function scp_alias(){ sshpass -p "$(pass show ssh/wit/release)" scp -r witsxtmf@wit-release.com.cloud3-vm648.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-wdp='function scp_alias(){ sshpass -p "$(pass show ssh/wit/deployment)" scp -r witxbhku@wit-deployment.com.cloud3-vm648.de-nserver.de:$1 $2; }; scp_alias'
+
+alias scp-vs='function scp_alias(){ sshpass -p "$(pass show ssh/vollmer/stage)" scp -r volmpxkk@vollmer-stage.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-vl='function scp_alias(){ sshpass -p "$(pass show ssh/vollmer/live)" scp -r volskjjr@vollmer.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-fs='function scp_alias(){ sshpass -p "$(pass show ssh/fulminant/stage)" scp -r fulfxbwp@fulminant.com.cloud3-vm648.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-fl='function scp_alias(){ sshpass -p "$(pass show ssh/fulminant/live)" scp -r fulkwheb@fulminant.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-kl='function scp_alias(){ sshpass -p "$(pass show ssh/kuhnert/live)" scp -r kuhwtptx@cloud5-vm540.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-bs='function scp_alias(){ sshpass -p "$(pass show ssh/bekuplast/stage)" scp -r bekdmcyb@bekuplast-stage.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-bl='function scp_alias(){ sshpass -p "$(pass show ssh/bekuplast/live)" scp -r ssh-fnla6t@a-x8s0vh@ssh.fiestel.project.host:$1 $2; }; scp_alias'
+alias scp-js='function scp_alias(){ sshpass -p "$(pass show ssh/juliwa-hesa/stage)" scp -r juloeomo@juliwa-hesa-stage.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-jl='function scp_alias(){ sshpass -p "$(pass show ssh/juliwa-hesa/live)" scp -r juluwrod@juliwa-hesa.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-as='function scp_alias(){ sshpass -p "$(pass show ssh/allgaier/stage)" scp -r allqenvq@allgaier-stage.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+alias scp-3gs='function scp_alias(){ sshpass -p "$(pass show ssh/3g/stage)" scp -r php-schmiede-dev.com_1ysi5fez2ij@213.202.244.164:$1 $2; }; scp_alias'
+alias scp-as='function scp_alias(){ sshpass -p "$(pass show ssh/frega/stage)" scp -r freuufea@frega-stage.com.cloud6-vm231.de-nserver.de:$1 $2; }; scp_alias'
+
+alias swc='rm -rf var/cache/ && bin/console cache:clear'
+alias bc='bin/console'
+alias pi='bin/console plugin:install'
+alias pia='bin/console plugin:install --activate'
+alias pu='bin/console plugin:uninstall'
+alias pa='bin/console plugin:activate'
+alias pda='bin/console plugin:deactivate'
+alias bb='bin/build-js.sh'
+alias bbs='bin/build-storefront.sh'
+alias bba='bin/build-administration.sh'
+alias bws='bin/watch-storefront.sh'
+alias bwa='bin/watch-administration.sh'
+
+alias bcf='_command="./bin/console $(./bin/console --format=json | jq -r ".commands | .[] | .name" | fzf) "; echo -n "$_command"; read; eval "$_command$REPLY"'
+
+alias 10="(cd ~/shopware/sandbox/10/; nvim .)"
+alias 20="(cd ~/shopware/sandbox/20/; nvim .)"
+alias 2066="(cd ~/shopware/sandbox/2066/; nvim .)"
