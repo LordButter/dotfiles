@@ -71,7 +71,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git history zsh-autosuggestions dotenv python tmux)
+plugins=(git history zsh-autosuggestions python tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -110,10 +110,12 @@ export GOPATH=/home/bastian/go
 export SHELL_VERBOSITY=1
 export XDEBUG_SESSION=1
 
-export PATH="$HOME/neovim/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/go/bin:$PATH
 export PATH=$HOME/.dotnet:$PATH
+export PATH=$HOME/neovim/bin:$PATH
+export PATH=$HOME/lazygit:$PATH
+export PATH=$HOME/go/bin:$PATH
+export PATH=$HOME/composer:$PATH
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
@@ -157,6 +159,7 @@ alias scp-as='function scp_alias(){ sshpass -p "$(pass show ssh/frega/stage)" sc
 
 alias swc='rm -rf var/cache/ && bin/console cache:clear'
 alias bc='bin/console'
+alias pr='bin/console plugin:refresh'
 alias pi='bin/console plugin:install'
 alias pia='bin/console plugin:install --activate'
 alias pu='bin/console plugin:uninstall'
@@ -168,8 +171,16 @@ alias bba='bin/build-administration.sh'
 alias bws='bin/watch-storefront.sh'
 alias bwa='bin/watch-administration.sh'
 
-alias bcf='_command="./bin/console $(./bin/console --format=json | jq -r ".commands | .[] | .name" | fzf) "; echo -n "$_command"; read; eval "$_command$REPLY"'
+alias bcf='_command="./bin/console $(./bin/console --format=json | jq -r ".commands | .[] | .name" | fzf) "; echo -n "$_command"; read; echo -n "$_command$REPLY" | clip.exe; eval "$_command$REPLY"'
 
 alias 10="(cd ~/shopware/sandbox/10/; nvim .)"
 alias 20="(cd ~/shopware/sandbox/20/; nvim .)"
 alias 2066="(cd ~/shopware/sandbox/2066/; nvim .)"
+
+alias pycli="python ~/shopware/cli/pycli.py"
+alias pycli-test="python ~/shopware/cli/pycli_test.py"
+
+alias lg="lazygit"
+
+alias c="clip.exe"
+alias ex="explorer.exe ."
