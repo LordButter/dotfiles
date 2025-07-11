@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo pacman -S --noconfirm zip unzip wget curl stow make cmake ripgrep fzf
+sudo apt-get install -y zip unzip wget curl stow make cmake ripgrep fzf

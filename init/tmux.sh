@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-sudo pacman -S --noconfirm tmux
+sudo apt-get install -y tmux
 
 stow -d ./config -t ./.. tmux

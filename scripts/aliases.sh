@@ -58,3 +58,5 @@ alias pycli="python ~/shopware/cli/pycli.py"
 alias pycli-test="python ~/shopware/cli/pycli_test.py"
 
 alias lg="lazygit"
+
+alias tsf="~/dotfiles/scripts/tmux-sessionizer.sh"
