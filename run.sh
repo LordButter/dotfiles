@@ -25,9 +25,9 @@ log() {
 }
 
 if [[ "$init" == "1" ]]; then
-    init_dir=$(find init -mindepth 1 -maxdepth 1 -type f -executable)
-    echo "$init_dir"
+    init_dirs=$(find init -mindepth 1 -maxdepth 1 -type f -executable)
+    echo "$init_dirs"
 fi
 
-config_dir=$(find config -mindepth 1 -maxdepth 1 -exec basename {} \;)
-echo "$config_dir"
+config_dirs=$(find config -mindepth 1 -maxdepth 1 -exec basename {} \;)
+echo "$config_dirs"
