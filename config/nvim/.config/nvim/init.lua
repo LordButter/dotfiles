@@ -542,6 +542,11 @@ require("lazy").setup({
 				gopls = {},
 				pyright = {},
 				intelephense = {},
+                jsonls = {},
+                html = {},
+				tsserver = {},
+                cssls = {},
+                omnisharp = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
@@ -549,7 +554,7 @@ require("lazy").setup({
 				--    https://github.com/pmizio/typescript-tools.nvim
 				--
 				-- But for many setups, the LSP (`ts_ls`) will work just fine
-				-- ts_ls = {},
+                -- ts_ls = {},
 				--
 
 				lua_ls = {
@@ -581,6 +586,7 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+                "twiggy-language-server"
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -783,6 +789,7 @@ require("lazy").setup({
 				"bash",
 				"c",
 				"cpp",
+                "c_sharp",
 				"php",
 				"go",
 				"python",
@@ -896,6 +903,8 @@ require("lazy").setup({
 				-- online, please don't ask me how to install them :)
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
+                    "php-debug-adapter",
+                    "netcoredbg"
 				},
 			})
 

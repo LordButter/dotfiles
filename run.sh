@@ -25,9 +25,13 @@ log() {
 }
 
 if [[ "$init" == "1" ]]; then
-    init_dirs=$(find init -mindepth 1 -maxdepth 1 -type f -executable)
-    echo "$init_dirs"
+    init_dirs=$(find init -mindepth 1 -maxdepth 1 -type f -executable | sort -V)
+    for file in $init_dirs; do
+        if [[ $file == *"$grep"* || -z "$grep" ]]; then
+            log "SCRIPT: $file"
+            if [[ "$dry_run" == "0" ]]; then
+                bash $file
+            fi
+        fi
+    done
 fi
-
-config_dirs=$(find config -mindepth 1 -maxdepth 1 -exec basename {} \;)
-echo "$config_dirs"
