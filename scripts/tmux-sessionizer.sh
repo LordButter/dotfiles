@@ -23,7 +23,7 @@ hydrate() {
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/ ~/code ~/dotfiles/config -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ~/ ~/code ~/dotfiles/config -mindepth 1 -maxdepth 1 -type d | sort -n -r | fzf)
 fi
 
 if [[ -z $selected ]]; then

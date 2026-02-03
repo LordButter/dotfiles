@@ -92,6 +92,7 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.keymap.set("i", "jj", "<Esc>", { desc = "Exit insert mode" })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
@@ -541,10 +542,12 @@ require("lazy").setup({
 				clangd = {},
 				gopls = {},
 				pyright = {},
-				intelephense = {},
+				intelephense = {
+                    root_dir = vim.loop.cwd()
+                },
                 jsonls = {},
                 html = {},
-				tsserver = {},
+				ts_ls = {},
                 cssls = {},
                 omnisharp = {},
 				-- rust_analyzer = {},
@@ -1025,6 +1028,21 @@ require("lazy").setup({
 			},
 		},
 	},
+    {
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        ---@type oil.SetupOpts
+        opts = {
+            view_options = {
+                show_hidden = true,  -- Show hidden files
+            },
+        },
+        -- Optional dependencies
+        dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+        -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+        -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+        lazy = false,
+    },
 	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 	-- copied from file
 	-- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -1123,6 +1141,4 @@ require("lazy").setup({
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-map("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", opts)
-map("n", "<Tab>", "<Cmd>BufferNext<CR>", opts)
-map("n", "<leader>x", "<Cmd>BufferClose<CR>", opts)
+vim.api.nvim_set_keymap('n', '<Leader>o', '<cmd>Oil<CR>', { noremap = true, silent = true })

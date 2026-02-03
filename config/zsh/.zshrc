@@ -112,13 +112,17 @@ export XDEBUG_SESSION=1
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.dotnet:$PATH
+export PATH=$HOME/.symfony5/bin:$PATH
 export PATH=$HOME/dotfiles/build/neovim/bin:$PATH
 export PATH=$HOME/dotfiles/build/lazygit:$PATH
 export PATH=$HOME/dotfiles/build/go/bin:$PATH
 export PATH=$HOME/dotfiles/build/composer:$PATH
+export PATH=$HOME/dotfiles/build/FileZilla3/bin:$PATH
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+eval "$(pyenv init - zsh)"
+
+export LIBVIRT_DEFAULT_URI='qemu:///system'
 
 source $HOME/dotfiles/scripts/aliases.sh
