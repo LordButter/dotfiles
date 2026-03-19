@@ -73,7 +73,7 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 20
+vim.opt.scrolloff = 15
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -93,12 +93,6 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Exit insert mode" })
-
--- TIP: Disable arrow keys in normal mode
-vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -319,7 +313,7 @@ require("lazy").setup({
 				-- },
 				-- pickers = {}
 				defaults = {
-					path_display = { "smart" },
+					path_display = { "truncate" },
 				},
 				extensions = {
 					["ui-select"] = {
@@ -542,9 +536,7 @@ require("lazy").setup({
 				clangd = {},
 				gopls = {},
 				pyright = {},
-				intelephense = {
-                    root_dir = vim.loop.cwd()
-                },
+				intelephense = {},
                 jsonls = {},
                 html = {},
 				ts_ls = {},
@@ -1043,6 +1035,41 @@ require("lazy").setup({
         -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
         lazy = false,
     },
+    {
+        "kdheepak/lazygit.nvim",
+        lazy = true,
+        cmd = {
+            "LazyGit",
+            "LazyGitConfig",
+            "LazyGitCurrentFile",
+            "LazyGitFilter",
+            "LazyGitFilterCurrentFile",
+        },
+        -- optional for floating window border decoration
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        -- setting the keybinding for LazyGit with 'keys' is recommended in
+        -- order to load the plugin when the command is run for the first time
+        keys = {
+            { "<leader>gl", "<cmd>LazyGitCurrentFile<cr>", desc = "[G]it [l]azygit" }
+        }
+    },
+    {
+        'romgrk/barbar.nvim',
+        dependencies = {
+          'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+          'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+          -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+          -- animation = true,
+          -- insert_at_start = true,
+          -- …etc.
+        },
+        version = '^1.0.0', -- optional: only update when a new 1.x version is released
+    },
 	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 	-- copied from file
 	-- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -1138,7 +1165,23 @@ require("lazy").setup({
 	},
 })
 
+vim.lsp.config('intelephense', {
+    root_dir = vim.loop.cwd()
+})
+
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-vim.api.nvim_set_keymap('n', '<Leader>o', '<cmd>Oil<CR>', { noremap = true, silent = true })
+map('n', '<Leader>o', '<cmd>Oil<CR>', opts)
+
+map('n', '<c-z>', '<nop>', opts)
+map('n', '<c-s>', '<cmd>write<CR>', opts)
+
+map('n', '<A-Left>', '<Cmd>BufferPrevious<CR>', opts)
+map('n', '<A-Right>', '<Cmd>BufferNext<CR>', opts)
+
+map('n', '<A-S-Left>', '<Cmd>BufferMovePrevious<CR>', opts)
+map('n', '<A-R-ight>', '<Cmd>BufferMoveNext<CR>', opts)
+
+map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+map('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)

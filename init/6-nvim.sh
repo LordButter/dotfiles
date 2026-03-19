@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cd build
 wget https://luarocks.org/releases/luarocks-3.12.2.tar.gz
 tar zxpf luarocks-3.12.2.tar.gz luarocks
 cd luarocks
